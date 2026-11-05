@@ -19,7 +19,7 @@ const alertBox = document.getElementById('alert-box');
 function showAlert(message, type = 'success') {
    if (!alertBox) return;
     alertBox.textContent = message;
-    alertBox.className = 'alert-box alert-${type}';
+    alertBox.className = `alert-box alert-${type}`;
     alertBox.style.display = 'block';
     setTimeout(() => {
         alertBox.style.display = 'none';
@@ -31,19 +31,20 @@ function showAlert(message, type = 'success') {
 async function loadMahasiswa(keyword = '') {
 
     // tampilkan indikator loading
-    tabelBody.innerHTML = ``;
+    tabelBody.innerHTML = `
         <tr>
                 <td colspan="8" style="text-align: center; padding: 20px; color: var(--text-muted);">
                     Memuat data dari server...
                 </td>
         </tr>
+    `;
     try {
 
         //Percobaan 6-1 Langkah 4 susun url request
         const url = keyword ? `${API_URL}?search=${encodeURIComponent(keyword)}` : API_URL;
         //Percobaan 6-1 Langkah 4 kirim request
         const response = await fetch(url);
-            if (!response.ok) throw new Error('HTTP Error: ${response.status}');
+            if (!response.ok) throw new Error(`HTTP Error: ${response.status}`);
         //Percobaan 6-1 Langkah 4 kirim ekstrak json 
         const result = await response.json();
             if(result.status === 'success') {
@@ -250,7 +251,8 @@ if (inputSearch) {
     clearTimeout(timer);
     timer = setTimeout(() => {
         loadMahasiswa(inputSearch.value.trim());
-    }); }, 300);
+    }, 300);
+    });
 }
 
 // Inisialisasi: Panggil Data Pertama Kali
